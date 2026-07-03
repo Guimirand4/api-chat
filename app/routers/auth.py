@@ -40,8 +40,13 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
     Recebe o código de autorização, troca por token, cria/busca
     o usuário e retorna um JWT.
     """
-    token = await oauth.google.authorize_access_token(request)
-    user_info = token.get("userinfo")
+    try:
+        token = await oauth.google.authorize_access_token(request)
+        user_info = token.get("userinfo")
+    except Exception as e:
+        # pyrefly: ignore [missing-import]
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail=f"Erro na autenticação: {str(e)}")
 
     if not user_info:
         # pyrefly: ignore [missing-import]

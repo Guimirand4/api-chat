@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # pyrefly: ignore [missing-import]
 from starlette.middleware.sessions import SessionMiddleware
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from app.config import get_settings
 from app.database import Base, engine
@@ -33,6 +34,9 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+# Middleware para suportar reverse proxies (Vercel) e manter o scheme HTTPS original
+app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 
 # Middleware de sessão (necessário para OAuth)
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
