@@ -15,7 +15,11 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     """Eventos de startup e shutdown da aplicação."""
     # Startup: cria as tabelas no banco (apenas dev, em prod usar Alembic)
-    Base.metadata.create_all(bind=engine)
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception:
+        # Em ambientes serverless (Vercel) o filesystem é read-only
+        pass
     yield
     # Shutdown: cleanup se necessário
 
