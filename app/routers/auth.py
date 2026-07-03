@@ -1,5 +1,8 @@
+# pyrefly: ignore [missing-import]
 from fastapi import APIRouter, Depends, Request
+# pyrefly: ignore [missing-import]
 from fastapi.responses import RedirectResponse
+# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import Session
 from authlib.integrations.starlette_client import OAuth
 
@@ -41,6 +44,7 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
     user_info = token.get("userinfo")
 
     if not user_info:
+        # pyrefly: ignore [missing-import]
         from fastapi import HTTPException
         raise HTTPException(status_code=400, detail="Falha ao obter dados do Google")
 

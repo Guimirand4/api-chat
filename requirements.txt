@@ -5,6 +5,7 @@ uvicorn[standard]==0.34.3
 # Database
 sqlalchemy==2.0.41
 alembic==1.16.2
+psycopg2-binary==2.9.12
 
 # Auth
 authlib==1.6.0
