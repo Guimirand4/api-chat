@@ -61,10 +61,10 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         picture=user_info.get("picture"),
     )
 
-    # Redireciona para o frontend com o token
+    # Redireciona para o frontend (tela de chat) com o token
     frontend_url = settings.frontend_url
     return RedirectResponse(
-        url=f"{frontend_url}/auth/callback?token={result.access_token}"
+        url=f"{frontend_url}/chat?token={result.access_token}"
     )
 
 
