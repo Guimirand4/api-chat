@@ -10,7 +10,7 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from app.config import get_settings
 from app.database import Base, engine
-from app.routers import health_router, auth_router
+from app.routers import health_router, auth_router, chat_router
 
 settings = get_settings()
 
@@ -53,3 +53,4 @@ app.add_middleware(
 # Registrar routers
 app.include_router(health_router)
 app.include_router(auth_router)
+app.include_router(chat_router)

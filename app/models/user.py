@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import String, DateTime, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -22,6 +22,10 @@ class User(Base):
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    conversations: Mapped[List["Conversation"]] = relationship( # type: ignore
+        "Conversation", back_populates="user", cascade="all, delete-orphan", order_by="Conversation.updated_at.desc()"
     )
 
     def __repr__(self) -> str:
