@@ -1,5 +1,8 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.chat import Conversation
 
 from sqlalchemy import String, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -24,7 +27,7 @@ class User(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    conversations: Mapped[List["Conversation"]] = relationship( # type: ignore
+    conversations: Mapped[List["Conversation"]] = relationship(
         "Conversation", back_populates="user", cascade="all, delete-orphan", order_by="Conversation.updated_at.desc()"
     )
 

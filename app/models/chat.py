@@ -1,5 +1,8 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 from sqlalchemy import String, DateTime, func, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -27,7 +30,7 @@ class Conversation(Base):
         "Message", back_populates="conversation", cascade="all, delete-orphan", order_by="Message.created_at"
     )
     # Relacionamento com usuário (definido explicitamente)
-    user: Mapped["User"] = relationship("User", back_populates="conversations") # type: ignore
+    user: Mapped["User"] = relationship("User", back_populates="conversations")
 
 
 class Message(Base):
