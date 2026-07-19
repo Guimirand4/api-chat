@@ -95,7 +95,8 @@ class ChatService:
                 model="gemini-2.5-flash",
                 history=history_contents,
                 config=types.GenerateContentConfig(
-                    system_instruction=f"A data e hora atual é {current_date}."
+                    system_instruction=f"A data e hora atual é {current_date}.",
+                    tools=[{"google_search": {}}]
                 )
             )
             response = chat_session.send_message(content)
