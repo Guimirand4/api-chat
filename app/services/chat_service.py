@@ -85,11 +85,18 @@ class ChatService:
         self.db.add(user_message)
         self.db.commit()
         
+        # Obtém a data e hora atual
+        from datetime import datetime
+        current_date = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        
         # 4. Envia a mensagem via Gemini mantendo o contexto (historico)
         try:
             chat_session = self.ai_client.chats.create(
                 model="gemini-2.5-flash",
-                history=history_contents
+                history=history_contents,
+                config=types.GenerateContentConfig(
+                    system_instruction=f"A data e hora atual é {current_date}."
+                )
             )
             response = chat_session.send_message(content)
             bot_reply = response.text
